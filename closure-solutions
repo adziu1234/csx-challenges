@@ -1,0 +1,88 @@
+//greetings, this is a collection of challenge solutions for csx's Closure, Scope & Execution Context module that I did not see good solutions for online otherwise. Hopefully this helps you if you need it! - Adrian /Adziu
+
+function once(cb){
+  let counter = 0;
+  let output;
+  function inner(num){
+    if (counter === 0) {
+      counter++;
+      output = cb(num)
+      return output;
+    } else {
+      return output;
+    }
+  }
+  return inner;
+}
+
+function after(numOfCalls, callbackFunc){
+  let count = 0;
+  return function inner(...args){
+    count++;
+		if (count >= numOfCalls) {
+      return callbackFunc(...args);
+    }
+  }
+}
+
+function saveOutput(func, password) {
+  let cache = {};
+  return function inner(arg) {
+    if (arg === password) {
+      //return object with passed args as keys, outputs as values
+      return cache;
+    } else {
+      cache[arg] = func(arg);
+      return cache[arg];
+    }
+  }
+}
+
+function cycleIterator(array){
+  let count = 0
+  return function inner(){
+    count++;
+    if (count > array.length) {
+      count = 1;
+    }
+    return array[count-1];
+  }
+}
+
+function hobbyTracker(hobbies) {
+  let cache = {};
+  return function objecter(hobby, hours){
+    if (hobby && hours) {
+      cache[hobby] = hours;
+    return cache;
+    } else {
+      for (let i = 0; i < cache.length; i++){
+        cache[i] = 0
+      }
+      return "tracker has been reset!";
+    }
+  } 
+}
+
+
+//create func, create cache obj with hobby as key
+function hobbyTracker(hobbiesArray) {
+  let cache = {};
+  hobbiesArray.forEach(element => {
+    cache[element] = 0
+  });
+  //return a func taking a string representing the hobby and integer representing hours per hobby as params
+  return function inner(hobby, hours){
+    //when invoked with params, update cache so hours is ADDED to value of hobby key
+    if (hobby && hours) {
+      cache[hobby] += hours;
+      return cache;
+    } else {
+      // If the returned function is invoked with no arguments, it should reset all values in the cache object to zero and return the string 'tracker has been reset!
+      for (let key in cache) {
+        cache[key] = 0;
+      }
+      return "tracker has been reset!";
+    }
+  }
+}
