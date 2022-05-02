@@ -1,0 +1,159 @@
+//greetings, this is my collection of challenge solutions for csx's Recursion module, some of which I did not see good solutions for online otherwise. Hopefully this helps you if you need it! - Adrian /Adziu
+
+//repeater
+
+console.log('Hello, world!');
+
+function repeater(char) {
+	if (char.length === 5) {
+    return char;
+  } else {
+    return repeater(char + char[0]);
+  }
+}
+
+// To check if you've completed the challenge, uncomment these console.logs!
+ console.log(repeater('g'));
+ console.log(repeater('j'));
+
+//factorial
+
+function factorial(num, product = 1) {
+	if (num === 1){
+    return product;
+  }
+  let newProduct = product * num;
+  let newNum = num - 1;
+  return factorial(newNum, newProduct)
+}
+
+// To check if you've completed the challenge, uncomment these console.logs!
+// console.log(factorial(4)); // -> 24
+// console.log(factorial(6)); // -> 720
+
+
+//getLength
+function getLength(array, length = 0) {
+	//base case: got through entire array, last array[] is undefined/null
+  if (!array[length]) {
+    return length;
+  } else {
+    let newLength = length + 1;
+    return getLength(array, newLength);
+  }
+}
+
+// To check if you've completed the challenge, uncomment these console.logs!
+ console.log(getLength([1])); // -> 1
+ console.log(getLength([1, 2])); // -> 2
+ console.log(getLength([1, 2, 3, 4, 5])); // -> 5
+ console.log(getLength([])); // -> 0
+
+//POW
+function pow(base, exponent) {
+	if (exponent === 1){
+    return base;
+  } else {
+    return base * pow(base, exponent - 1)
+  }
+}
+
+// To check if you've completed the challenge, uncomment these console.logs!
+// console.log(pow(2, 4)); // -> 16
+// console.log(pow(3, 5)); // -> 243
+
+
+//flow
+function flow(input, funcArray) {
+ if (!funcArray[0]) {
+   return input;
+ } else {
+  let output = funcArray[0](input);
+  funcArray.shift();
+  return flow(output, funcArray);
+ }
+}
+
+// To check if you've completed the challenge, uncomment this code!
+// function multiplyBy2(num) { return num * 2; }
+// function add7(num) { return num + 7; }
+// function modulo4(num) { return num % 4; }
+// function subtract10(num) { return num - 10; }
+// const arrayOfFunctions = [multiplyBy2, add7, modulo4, subtract10];
+// console.log(flow(2, arrayOfFunctions)); // -> -7
+
+
+//cascade
+//Disclaimer: This cascade solution does not fulfill all of the checks of the challenge for some reason, failing "cascade should return undefined" even though it does
+
+function cascade(number) {
+	// Your code here!
+  const workableNumber = number.toString();
+  //base con: number is single digit, print the number, return
+  if (workableNumber.length === 1){
+    console.log(number);
+    return;
+  } else {
+    const shortenedNumString = workableNumber.slice(0, workableNumber.length-1);
+    const newNum = parseInt(shortenedNumString);
+    //in between printed lines, call the recursion
+    console.log(number);
+    cascade(newNum);
+    console.log(number);
+    return;
+  }
+}
+
+
+
+// // Uncomment to test your work!
+cascade(111)
+// // should print
+// /*
+// 111
+// 11
+// 1
+// 11
+// 111
+// */
+
+
+//Disclaimer: This cascade solution does not fulfill all of the checks of the challenge for some reason, though the checks in the provided IDE all work
+
+  let array = [];
+function shuffleCards(topHalf, bottomHalf) {
+
+  //if there's no elements left to either half, return the shuffled array.
+  if (!topHalf[0] && !bottomHalf[0]) {
+    return array;
+  } else if (topHalf[0] || bottomHalf[0]) {
+    //if both halves have a first element, push the top then the bottom first element into array
+    if(topHalf[0]){
+      array.push(topHalf[0]);
+    };
+    if (bottomHalf[0]){
+      array.push(bottomHalf[0]);
+    };
+    topHalf.splice(0, 1);
+    bottomHalf.splice(0, 1);
+    return shuffleCards(topHalf, bottomHalf);
+  }
+}
+
+
+
+// UNCOMMENT TO TEST YOUR WORK
+ const topHalf = ['Queen of Diamonds', 'Five of Hearts', 'Ace of Spades', 'Eight of Clubs'];
+ const bottomHalf = ['Jack of Hearts', 'Ten of Spades'];
+	console.log(shuffleCards(topHalf, bottomHalf));
+//   /*-> ['Queen of Diamonds',
+//         'Jack of Hearts',
+//         'Five of Hearts',
+//         'Ten of Spades',
+//         'Ace of Spades',
+//         'Eight of Clubs',
+//       ]
+//   */
+const topNew = ["a", "b"];
+const botNew = ["1", "2", "3", "4", "5"];
+//console.log(shuffleCards(topNew, botNew));
